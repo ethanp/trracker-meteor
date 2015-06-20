@@ -1,20 +1,21 @@
 Tasks = new Mongo.Collection("tasks");
+Categories = new Mongo.Collection("categories");
 
 if (Meteor.isClient) {
   Meteor.subscribe("tasks");
   Template.body.helpers({
     tasks: function () {
-      if (Session.get("hideCompleted")) {
-        return Tasks.find({checked: {$ne: true}}, {sort: {createdAt: -1}});
+      if (Session.get("hideComplete")) {
+        return Tasks.find({complete: {$ne: true}}, {sort: {createdAt: -1}});
       } else {
         return Tasks.find({}, {sort: {createdAt: -1}});
       }
     },
-    hideCompleted: function () {
-      return Session.get("hideCompleted");
+    hideComplete: function () {
+      return Session.get("hideComplete");
     },
     incompleteCount: function() {
-      return Tasks.find({checked: {$ne: true}}).count();
+      return Tasks.find({complete: {$ne: true}}).count();
     }
   });
 
@@ -35,11 +36,11 @@ if (Meteor.isClient) {
     },
     // keeping up with which dom event has what name is going to
     // be a learning curve in all this
-    "change .hide-completed input": function (event) {
+    "change .hide-complete input": function (event) {
       // `Session` is where we store temporary UI state.
       // We treat it like any other collection, but it is
       // not synced with the server.
-      Session.set("hideCompleted", event.target.checked);
+      Session.set("hideComplete", event.target.checked);
     }
   })
 
@@ -50,8 +51,8 @@ if (Meteor.isClient) {
   });
 
   Template.task.events({
-    "click .toggle-checked": function () {
-      Meteor.call("setChecked", this._id, !this.checked);
+    "click .toggle-complete": function () {
+      Meteor.call("setComplete", this._id, !this.complete);
     },
     "click .delete": function () {
       Meteor.call("deleteTask", this._id);
@@ -94,12 +95,12 @@ Meteor.methods({
     // remove's param is which subset of collection to delete
     Tasks.remove(taskId);
   },
-  setChecked: function (taskId, setChecked) {
+  setComplete: function (taskId, setComplete) {
     // `this` refers to an individual `Task` "document"
       // `_id` is its 'primary key'
       // update takes two params
       //  1. which subset of collection to update
       //  2. an update action to perform on that subset
-      Tasks.update(taskId, {$set: {checked: setChecked}});
+      Tasks.update(taskId, {$set: {complete: setComplete}});
     }
 });

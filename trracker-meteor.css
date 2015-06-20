@@ -96,7 +96,7 @@ li.checked .text {
   text-decoration: line-through;
 }
 
-header .hide-completed {
+header .hide-complete {
   float: right;
 }
 

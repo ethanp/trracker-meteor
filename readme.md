@@ -7,3 +7,30 @@
 ### Next steps
 
 1. Add "categories" (via routing?)
+
+#### Schema
+
+```json
+Category
+{
+    name,
+    user_id,
+    [tasks]
+}
+
+Task
+{
+    name,
+    category_id,
+    complete,
+    [subtasks],
+    [intervals]
+}
+
+Subtask
+{
+    name,
+    url,
+
+}
+```
