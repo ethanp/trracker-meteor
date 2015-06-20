@@ -55,9 +55,6 @@ if (Meteor.isClient) {
     },
     "click .delete": function () {
       Meteor.call("deleteTask", this._id);
-    },
-    "click .toggle-private": function () {
-      Meteor.call("setPrivate", this._id, !this.private);
     }
   })
 
@@ -68,12 +65,7 @@ if (Meteor.isClient) {
 
 if (Meteor.isServer) {
   Meteor.publish("tasks", function () {
-    return Tasks.find({
-      $or: [
-      { private: {$ne: true}},
-      { owner: this.userId }
-      ]
-    });
+    return Tasks.find({ owner: this.userId });
   });
 }
 
@@ -94,7 +86,7 @@ Meteor.methods({
   },
   deleteTask: function (taskId) {
     var task = Tasks.findOne(taskId);
-    if (task.private && task.owner !== Meteor.userId()) {
+    if (task.owner !== Meteor.userId()) {
       // apparently, throwing this error here means the
       // remove() function below will *not* be called
       throw new Meteor.Error("not-authorized");
@@ -109,15 +101,5 @@ Meteor.methods({
       //  1. which subset of collection to update
       //  2. an update action to perform on that subset
       Tasks.update(taskId, {$set: {checked: setChecked}});
-    },
-    setPrivate: function(taskId, setToPrivate) {
-      var task = Tasks.findOne(taskId);
-
-    // Make sure only the task owner can make a task private
-    if (task.owner !== Meteor.userId()) {
-      throw new Meteor.Error("not-authorized");
     }
-
-    Tasks.update(taskId, {$set: {private: setToPrivate}});
-  }
 });
