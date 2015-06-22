@@ -46,19 +46,34 @@ Meteor.methods({
     });
   },
   deleteTask: function (taskId) {
+    console.log("deleting task "+taskId);
     var task = Tasks.findOne(taskId);
     if (task.owner !== Meteor.userId()) {
       // throwing error here means remove() below will *not* be called
       throw new Meteor.Error("not authorized");
     }
-    // remove's param is which subset of collection to delete
+    // delete from parent
+    Categories.update({tasks: taskId}, {$pull: {tasks: taskId}});
+    // delete children
+    for (idx in task.subtasks) {
+      Meteor.call("deleteSubtask", task.subtasks[idx]);
+    }
     Tasks.remove(taskId);
   },
   deleteSubtask: function (subtaskId) {
+    console.log("deleting subtask "+subtaskId);
+    // delete from parent
+    Tasks.update({subtasks: subtaskId}, {$pull: {subtasks: subtaskId}});
     Subtasks.remove(Subtasks.findOne(subtaskId));
   },
   deleteCategory: function (categId) {
-    Categories.remove(Categories.findOne(categId));
+    console.log("deleting categ "+categId);
+    var categ = Categories.findOne(categId);
+    // ON DELETE CASCADE
+    for (idx in categ.tasks) {
+      Meteor.call("deleteTask", categ.tasks[idx]);
+    }
+    Categories.remove(categId);
   },
   addSubtask: function (name, taskId) {
     var subtask = {

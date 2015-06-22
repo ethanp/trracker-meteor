@@ -1,6 +1,5 @@
 ### Next steps
 
-* Fix categ, task, and subtask deletion to `on delete cascade`
 * Add subtasks urls
 * Add interval recording
 * Improve formatting
@@ -9,6 +8,8 @@
 
 1. `Session` collection does not last across refreshes.
     * I'm not entirely sure how it's useful then...
+2. When iterating through a Mongo array, you're actually
+   iterating through the indexes into the array (why?)
 
 #### Schema
 

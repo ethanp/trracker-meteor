@@ -12,13 +12,13 @@
       </label>
       {{> loginButtons}}
       {{#if currentUser}} <!-- if user is logged in... -->
-        <form class="new-category">
+        <form class="new new-category">
           <input type="text" name="text" placeholder="Add new category here"/>
         </form>
       {{/if}}
     </header>
 
-    <ul>
+    <ul id="outermost">
       {{#each categories}}
         {{> category}}
       {{/each}}
@@ -30,12 +30,12 @@
   <li>
     <button class="delete delete-category">&times;</button>
     {{name}}
-      <form class="new-task">
+      <form class="new new-task">
         <input type="text" name="text" placeholder="Add new task here"/>
       </form>
     <ul>
       {{#each tasks}}
-        {{> task}} <!-- inserts a <template "task"> below  -->
+        {{> task}}
       {{/each}}
     </ul>
   </li>
@@ -46,7 +46,7 @@
     <button class="delete delete-task">&times;</button>
     <input type="checkbox" checked="{{complete}}" class="toggle-complete" />
     <span class="text">{{name}}</span>
-    <form class="new-subtask">
+    <form class="new new-subtask">
       <input type="text" name="text" placeholder="Add new subtask here"/>
     </form>
     <ul>
