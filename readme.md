@@ -10,18 +10,20 @@
 
 #### Schema
 
-```json
+```
 Category
 {
     name,
-    user_id,
+    createdAt,
+    owner,
     [tasks]
 }
 
 Task
 {
     name,
-    category_id,
+    createdAt,
+    owner,
     complete,
     [subtasks],
     [intervals]

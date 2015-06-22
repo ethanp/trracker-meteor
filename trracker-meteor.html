@@ -19,12 +19,20 @@
     </header>
 
     <ul>
-      {{#each tasks}}
-        {{> task}} <!-- inserts a <template "task"> below  -->
+      {{#each categories}}
+        {{> category}} <!-- inserts a <template "task"> below  -->
       {{/each}}
     </ul>
   </div>
 </body>
+
+<template name="category">
+  <ul>
+    {{#each tasks}}
+      {{> task}} <!-- inserts a <template "task"> below  -->
+    {{/each}}
+  </ul>
+</template>
 
 <template name="task">
   <li class="{{#if complete}}checked{{/if}}">
