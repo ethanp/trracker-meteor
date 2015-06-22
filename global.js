@@ -17,15 +17,25 @@ Meteor.methods({
       tasks: []
     })
   },
-  addTask: function (name) {
+  addTask: function (name, category) {
     if (!Meteor.userId()) {
       throw new Meteor.Error("not-authorized");
     }
-    Tasks.insert({
+    var caseInsensitiveName = new RegExp(["^", name, "$"].join(""), "i");
+    if (Tasks.findOne({name: caseInsensitiveName})) {
+      throw new Meteor.Error("task with name "+name+" already exists")
+    }
+    var taskObj = {
       name: name,
       createdAt: new Date(),
-      owner: Meteor.userId(),          // logged-in user_id
+      owner: Meteor.userId(), // logged-in user_id
       complete: false
+    };
+    // TODO I don't think this is done
+    Tasks.insert(taskObj, function (err) {
+      if (err) return;
+      var curCat = Session.get("curCat");
+      Categories.update(curCat, {$addToSet: {tasks: taskObj._id}});
     });
   },
   deleteTask: function (taskId) {
@@ -45,5 +55,8 @@ Meteor.methods({
     //  1. which subset of collection to update
     //  2. an update action to perform on that subset
     Tasks.update(taskId, {$set: {complete: setComplete}});
+  },
+  getFirstCat: function() {
+    return Categories.findOne({owner: Meteor.userId()});
   }
 });
