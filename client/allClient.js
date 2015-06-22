@@ -1,5 +1,7 @@
 Meteor.subscribe("tasks");
 Meteor.subscribe("categories");
+Meteor.subscribe("subtasks");
+Meteor.subscribe("intervals");
 
 Template.body.helpers({
   tasks: function() {
@@ -20,40 +22,38 @@ Template.body.helpers({
   }
 });
 
+var addFunc = function (event, func, id) {
+  var name = event.target.text.value;
+  Meteor.call(func, name, id);
+  event.target.text.value = "";
+  return false; // prevent default form submit
+}
+
 Template.body.events({
   /* this right here is a dictionary
    in which all keys are events to listen for
    and values are their event handlers */
 
-  // listen for 'submit' event on anything
-  //  matching the .new-task selector
   "submit .new-task": function (event) {
-    var name = event.target.text.value;
-    var categId = this._id;
-    Meteor.call("addTask", name, categId);
-    event.target.text.value = "";
-    // prevent default form submit
-    return false;
+    return addFunc(event, "addTask", this._id);
   },
   "submit .new-category": function (event) {
-    var name = event.target.text.value;
-    Meteor.call("addCategory", name, this._id);
-    event.target.text.value = "";
-    return false;
+    return addFunc(event, "addCategory", this._id);
   },
-  // keeping up with which dom event has what name is going to
-  // be a learning curve in all this
+  "submit .new-subtask": function (event) {
+    return addFunc(event, "addSubtask", this._id);
+  },
   "change .hide-complete input": function (event) {
-    // `Session` is where we store temporary UI state.
-    // We treat it like any other collection, but it is
-    // not synced with the server.
     Session.set("hideComplete", event.target.checked);
   }
 })
 
 Template.task.helpers({
-  isOwner: function () {
+  isOwner: function() {
     return this.owner === Meteor.userId();
+  },
+  subtasks: function() {
+    return Subtasks.find({_id: {$in: this.subtasks}});
   }
 });
 
@@ -63,9 +63,11 @@ Template.category.helpers({
   }
 });
 
+
 Template.task.events({
   "click .toggle-complete": function() {
     Meteor.call("setComplete", this._id, !this.complete);
+    // note here we *don't* return false
   },
   "click .delete": function() {
     Meteor.call("deleteTask", this._id);

@@ -5,3 +5,11 @@ Meteor.publish("tasks", function () {
 Meteor.publish("categories", function() {
   return Categories.find({ owner: this.userId });
 });
+
+Meteor.publish("subtasks", function() {
+  return Subtasks.find({ owner: this.userId });
+});
+
+Meteor.publish("intervals", function() {
+  return Intervals.find({ owner: this.userId });
+});

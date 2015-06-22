@@ -45,5 +45,19 @@
     <button class="delete">&times;</button>
     <input type="checkbox" checked="{{complete}}" class="toggle-complete" />
     <span class="text">{{name}}</span>
+    <form class="new-subtask">
+      <input type="text" name="text" placeholder="Add new subtask here"/>
+    </form>
+    <ul>
+      {{#each subtasks}}
+        {{> subtask}}
+      {{/each}}
+    </ul>
+  </li>
+</template>
+
+<template name="subtask">
+  <li>
+    {{name}}
   </li>
 </template>

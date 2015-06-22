@@ -1,5 +1,7 @@
 Tasks = new Mongo.Collection("tasks");
 Categories = new Mongo.Collection("categories");
+Subtasks = new Mongo.Collection("subtasks");
+Intervals = new Mongo.Collection("intervals");
 
 /* these methods are "latency compensated" (cool!) */
 Meteor.methods({
@@ -34,6 +36,8 @@ Meteor.methods({
       name: name,
       createdAt: new Date(),
       owner: Meteor.userId(), // logged-in user_id
+      subtasks: [],
+      intervals: [],
       complete: false
     };
     Tasks.insert(taskObj, function (err, taskId) {
@@ -49,6 +53,18 @@ Meteor.methods({
     }
     // remove's param is which subset of collection to delete
     Tasks.remove(taskId);
+  },
+  addSubtask: function (name, taskId) {
+    var subtask = {
+      name: name,
+      owner: Meteor.userId(),
+      complete: false,
+      url: "http://www.google.com"
+    }
+    Subtasks.insert(subtask, function (err, subTaskId) {
+      if (err) return;
+      Tasks.update({_id: taskId}, {$addToSet: {subtasks: subTaskId}});
+    });
   },
   setComplete: function (taskId, complete) {
     Tasks.update(taskId, {$set: {complete: complete}});

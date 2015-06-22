@@ -1,17 +1,15 @@
-### Changes so far
+### Next steps
 
-1. Get rid of the concept of "public tasks"
-    1. I.e. only show a user their tasks
-    2. Don't have the code talk about whether or not a task is public
+* Add delete categ and subtask buttons
+* Fix categ, task, and subtask deletion to `on delete cascade`
+* Add subtasks urls
+* Add interval recording
+* Improve formatting
 
 ### Lessons Learnt
 
 1. `Session` collection does not last across refreshes.
     * I'm not entirely sure how it's useful then...
-
-### Next steps
-
-1. Add "categories" (via routing?)
 
 #### Schema
 
@@ -30,6 +28,7 @@ Task
     createdAt,
     owner,
     complete,
+    isRecording,
     [subtasks],
     [intervals]
 }
@@ -38,6 +37,13 @@ Subtask
 {
     name,
     url,
+    owner
+}
 
+Interval
+{
+    startTime,
+    endTime,
+    owner
 }
 ```
