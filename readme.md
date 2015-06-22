@@ -1,6 +1,5 @@
 ### Next steps
 
-* Add delete categ and subtask buttons
 * Fix categ, task, and subtask deletion to `on delete cascade`
 * Add subtasks urls
 * Add interval recording

@@ -66,11 +66,25 @@ Template.category.helpers({
 
 Template.task.events({
   "click .toggle-complete": function() {
-    Meteor.call("setComplete", this._id, !this.complete);
-    // note here we *don't* return false
+    Meteor.call("setTaskComplete", this._id, !this.complete);
   },
-  "click .delete": function() {
+  "click .delete-task": function() {
     Meteor.call("deleteTask", this._id);
+  }
+});
+
+Template.subtask.events({
+  "click .toggle-complete": function() {
+    Meteor.call("setSubtaskComplete", this._id, !this.complete);
+  },
+  "click .delete-subtask": function() {
+    Meteor.call("deleteSubtask", this._id);
+  }
+});
+
+Template.category.events({
+  "click .delete-category": function() {
+    Meteor.call("deleteCategory", this._id);
   }
 });
 

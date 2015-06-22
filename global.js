@@ -54,6 +54,12 @@ Meteor.methods({
     // remove's param is which subset of collection to delete
     Tasks.remove(taskId);
   },
+  deleteSubtask: function (subtaskId) {
+    Subtasks.remove(Subtasks.findOne(subtaskId));
+  },
+  deleteCategory: function (categId) {
+    Categories.remove(Categories.findOne(categId));
+  },
   addSubtask: function (name, taskId) {
     var subtask = {
       name: name,
@@ -66,7 +72,10 @@ Meteor.methods({
       Tasks.update({_id: taskId}, {$addToSet: {subtasks: subTaskId}});
     });
   },
-  setComplete: function (taskId, complete) {
+  setTaskComplete: function (taskId, complete) {
     Tasks.update(taskId, {$set: {complete: complete}});
+  },
+  setSubtaskComplete: function (subtaskId, complete) {
+    Subtasks.update(subtaskId, {$set: {complete: complete}});
   }
 });
