@@ -14,6 +14,9 @@ Template.body.helpers({
   },
   incompleteCount: function() {
     return Tasks.find({complete: {$ne: true}}).count();
+  },
+  categories: function() {
+    return Categories.find();
   }
 });
 
@@ -26,10 +29,16 @@ Template.body.events({
   //  matching the .new-task selector
   "submit .new-task": function (event) {
     var name = event.target.text.value;
-    Meteor.call("addTask", name);
+    var categId = this._id;
+    Meteor.call("addTask", name, categId);
     event.target.text.value = "";
-
     // prevent default form submit
+    return false;
+  },
+  "submit .new-category": function (event) {
+    var name = event.target.text.value;
+    Meteor.call("addCategory", name, this._id);
+    event.target.text.value = "";
     return false;
   },
   // keeping up with which dom event has what name is going to
@@ -48,6 +57,12 @@ Template.task.helpers({
   }
 });
 
+Template.category.helpers({
+  tasks: function() {
+    return Tasks.find({_id: {$in: this.tasks}});
+  }
+});
+
 Template.task.events({
   "click .toggle-complete": function() {
     Meteor.call("setComplete", this._id, !this.complete);
@@ -55,17 +70,8 @@ Template.task.events({
   "click .delete": function() {
     Meteor.call("deleteTask", this._id);
   }
-})
+});
 
 Accounts.ui.config({
   passwordSignupFields: "USERNAME_ONLY"
 });
-
-Accounts.onLogin(function() {
-  console.log(Meteor.userId());
-  Meteor.call("getFirstCat", function (err, result) {
-    if (err) return;
-    Session.set("curCat", result);
-  });
-
-})

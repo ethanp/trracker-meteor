@@ -4,6 +4,11 @@
     1. I.e. only show a user their tasks
     2. Don't have the code talk about whether or not a task is public
 
+### Lessons Learnt
+
+1. `Session` collection does not last across refreshes.
+    * I'm not entirely sure how it's useful then...
+
 ### Next steps
 
 1. Add "categories" (via routing?)
