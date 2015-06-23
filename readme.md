@@ -9,6 +9,10 @@
     * Including manual entry using [datetimepicker][dt]
         * Put it in "inline" mode
     * Ensure intervals also `ON DELETE CASCADE`
+* Switch to Coffeescript
+* Reimplement "hide completed tasks"
+    * It was saved in `Session`, which would be fine, except then it should
+      default to "hidden", not shown
 
 [boot-acct]: https://github.com/erobit/meteor-accounts-ui-bootstrap-dropdown
 [dt]: https://github.com/tsega/meteor-bootstrap3-datetimepicker/

@@ -105,13 +105,13 @@ Template.category.onRendered(function() {
   });
 });
 
-Template.registerHelper('realDate', function (a) {
-  return a.getTime() !== 0;
-});
+Template.ifRealDate.realDate = function (d) {
+  return d.getTime() !== 0;
+};
 
-Template.registerHelper('datePassed', function (a) {
-  return a.getTime() < new Date().getTime();
-});
+Template.ifDatePassed.datePassed = function (d) {
+  return d.getTime() < new Date().getTime();
+};
 
 Accounts.ui.config({
   passwordSignupFields: "USERNAME_ONLY"

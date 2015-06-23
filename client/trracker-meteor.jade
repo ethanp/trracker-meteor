@@ -1,0 +1,72 @@
+head
+  title Todo List
+body
+  .container
+    header
+      h1 Todo List (#{incompleteCount})
+      label.hide-complete
+        input(type='checkbox', checked='#{hideComplete}')
+        | Hide Completed Tasks
+      +loginButtons
+      //- if user is logged in...
+      if currentUser
+        form.new.new-category
+          input(type='text', name='text', placeholder='Add new category here')
+    ul#outermost
+      each categories
+        +category
+template(name='category')
+  li
+    button.delete.delete-category &times;
+    = name
+    form.new.new-task
+      input(type='text', name='text', placeholder='Add new task here')
+      label Set duedate
+      .input-group.datetimepicker
+        span.input-group-addon
+          span.glyphicon.glyphicon-calendar
+        input.set-due-date.form-control(type='text', name='duedate')
+      //- http://stackoverflow.com/questions/477691/
+      //- submitting-a-form-by-pressing-enter-without-a-submit-button
+      input(type='submit', style='position: absolute; left: -9999px')
+    ul
+      each tasks
+        +task
+
+template(name="ifRealDate")
+  if realDate value
+    +UI.contentBlock
+  else
+    +UI.elseBlock
+
+template(name="ifDatePassed")
+  if datePassed value
+    +UI.contentBlock
+  else
+    +UI.elseBlock
+
+template(name='task')
+  li(class='{{#if complete}}checked{{/if}}')
+    button.delete.delete-task &times;
+    input.toggle-complete(type='checkbox', checked='#{complete}')
+    span.text= name
+    br
+    +ifRealDate duedate
+      label Duedate:
+      = humanDuedate
+      br
+      +ifDatePassed duedate
+        label Was due:
+      else
+        label Time remaining:
+        = humanTimeRemaining
+    form.new.new-subtask
+      input(type='text', name='text', placeholder='Add new subtask here')
+    ul
+      each subtasks
+        +subtask
+template(name='subtask')
+  li
+    button.delete.delete-subtask &times;
+    input.toggle-complete(type='checkbox', checked='#{complete}')
+    span.text {{name}}
