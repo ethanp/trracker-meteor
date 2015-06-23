@@ -56,7 +56,18 @@
     <button class="delete delete-task">&times;</button>
     <input type="checkbox" checked="{{complete}}" class="toggle-complete" />
     <span class="text">{{name}}</span>
-    {{duedate}}
+    <br/>
+    {{#if realDate duedate}}
+      <label>Duedate:</label>
+      {{humanDuedate}}
+      <br/>
+      {{#if datePassed duedate}}
+        <label>Was due:</label>
+      {{else}}
+        <label>Time remaining:</label>
+      {{/if}}
+      {{humanTimeRemaining}}
+    {{/if}}
     <form class="new new-subtask">
       <input type="text" name="text" placeholder="Add new subtask here"/>
     </form>

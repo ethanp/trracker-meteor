@@ -60,7 +60,13 @@ Template.task.helpers({
   },
   subtasks: function() {
     return Subtasks.find({_id: {$in: this.subtasks}});
-  }
+  },
+  humanDuedate: function() {
+    return moment(this.duedate).format('MMMM Do YYYY, h:mm a');
+  },
+  humanTimeRemaining: function() {
+    return moment(this.duedate).fromNow();
+  },
 });
 
 Template.category.helpers({
@@ -68,7 +74,6 @@ Template.category.helpers({
     return Tasks.find({_id: {$in: this.tasks}});
   }
 });
-
 
 Template.task.events({
   "click .toggle-complete": function() {
@@ -96,9 +101,16 @@ Template.category.events({
 
 Template.category.onRendered(function() {
   this.$('.datetimepicker').datetimepicker({
-    // inline: true,
     sideBySide: true
   });
+});
+
+Template.registerHelper('realDate', function (a) {
+  return a.getTime() !== 0;
+});
+
+Template.registerHelper('datePassed', function (a) {
+  return a.getTime() < new Date().getTime();
 });
 
 Accounts.ui.config({
