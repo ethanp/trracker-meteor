@@ -35,7 +35,13 @@ Template.body.events({
    and values are their event handlers */
 
   "submit .new-task": function (event) {
-    return addFunc(event, "addTask", this._id);
+    console.log(event)
+    var name = event.target.text.value;
+    var duedate = moment(event.target.duedate.value).toDate();
+    Meteor.call("addTask", name, this._id, duedate);
+    event.target.text.value = "";
+    event.target.duedate.value = "";
+    return false;
   },
   "submit .new-category": function (event) {
     return addFunc(event, "addCategory", this._id);
@@ -86,6 +92,13 @@ Template.category.events({
   "click .delete-category": function() {
     Meteor.call("deleteCategory", this._id);
   }
+});
+
+Template.category.onRendered(function() {
+  this.$('.datetimepicker').datetimepicker({
+    // inline: true,
+    sideBySide: true
+  });
 });
 
 Accounts.ui.config({

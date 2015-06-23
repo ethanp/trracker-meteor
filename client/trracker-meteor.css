@@ -48,18 +48,23 @@ form {
   position: relative;
 }
 
+/* this is where transparency *used* to be defined */
 .new input {
+}
+
+/* exclude the datetimepicker from the transparency */
+input[type=text][name=text] {
+  border: none;
+  background: transparent;
+  width: 100%;
   box-sizing: border-box;
   padding: 10px 0;
-  background: transparent;
-  border: none;
-  width: 100%;
-  padding-right: 80px;
   font-size: 1em;
 }
 
 .new input:focus{
   outline: 0;
+  padding-right: 80px;
 }
 
 ul {
@@ -83,21 +88,22 @@ ul {
 }
 
 li {
-  position: relative;
-  list-style: none;
-  padding: 15px;
-  padding-right: 0;
-  border-bottom: #eee solid 1px;
+  position: relative; /* no effect? not sure... */
+  list-style: none; /* don't show the 'bullet' on the left */
+  padding: 15px; /* space things out a bit better */
+  padding-right: 0; /* align delete marks on the right at any nesting level */
+  /*border-bottom: #eee solid 1px;*/ /* line underneath (doesn't work) */
 }
 
 li .text {
   margin-left: 10px;
 }
 
-li.checked {
-  color: #888;
+.grey-text, li.checked {
+  color: #988;
 }
 
+/* TODO not working */
 li.checked .text {
   text-decoration: line-through;
 }

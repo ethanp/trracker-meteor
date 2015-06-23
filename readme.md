@@ -1,8 +1,17 @@
 ### Next steps
 
-* Add subtasks urls
-* Add interval recording
 * Improve formatting
+    * E.g. for duedates
+    * Nice [sAlert](http://s-alert.meteor.com/)
+* Add subtasks urls
+* Add interval
+    * "Record" button
+    * Including manual entry using [datetimepicker][dt]
+        * Put it in "inline" mode
+    * Ensure intervals also `ON DELETE CASCADE`
+
+[boot-acct]: https://github.com/erobit/meteor-accounts-ui-bootstrap-dropdown
+[dt]: https://github.com/tsega/meteor-bootstrap3-datetimepicker/
 
 ### Lessons Learnt
 
@@ -26,6 +35,7 @@ Task
 {
     name,
     createdAt,
+    duedate,
     owner,
     complete,
     isRecording,

@@ -30,9 +30,19 @@
   <li>
     <button class="delete delete-category">&times;</button>
     {{name}}
-      <form class="new new-task">
-        <input type="text" name="text" placeholder="Add new task here"/>
-      </form>
+    <form class="new new-task">
+      <input type="text" name="text" placeholder="Add new task here"/>
+      <label>Set duedate</label>
+      <div class="input-group datetimepicker">
+        <span class="input-group-addon">
+            <span class="glyphicon glyphicon-calendar"></span>
+        </span>
+        <input class="set-due-date form-control" type="text" name="duedate"/>
+      </div>
+      <!-- http://stackoverflow.com/questions/477691/ -->
+      <!-- submitting-a-form-by-pressing-enter-without-a-submit-button -->
+      <input type="submit" style="position: absolute; left: -9999px"/>
+    </form>
     <ul>
       {{#each tasks}}
         {{> task}}
@@ -46,6 +56,7 @@
     <button class="delete delete-task">&times;</button>
     <input type="checkbox" checked="{{complete}}" class="toggle-complete" />
     <span class="text">{{name}}</span>
+    {{duedate}}
     <form class="new new-subtask">
       <input type="text" name="text" placeholder="Add new subtask here"/>
     </form>

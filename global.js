@@ -9,9 +9,7 @@ Meteor.methods({
   // seems like a better layout anyhow
 
   addCategory: function (name) {
-    if (!Meteor.userId()) {
-      throw new Meteor.Error("not-authorized");
-    }
+    if (!name) throw new Meteor.Error("no name passed");
     Categories.insert({
       name: name,
       createdAt: new Date(),
@@ -19,23 +17,14 @@ Meteor.methods({
       tasks: []
     })
   },
-  addTask: function (name, catId) {
-    if (!Meteor.userId()) {
-      throw new Meteor.Error("not-authorized");
-    }
-    if (!catId) {
-      throw new Meteor.Error("task req's assoc'd category");
-    }
-    if (Tasks.findOne({
-      name: new RegExp("^"+name+"$", "i"), // case-insensitive match
-      owner: Meteor.userId()
-    })) {
-      throw new Meteor.Error("you already have a task named "+name);
-    }
+  addTask: function (name, catId, duedate) {
+    if (!name) throw new Meteor.Error("no name passed");
+    if (!catId) throw new Meteor.Error("no category passed");
     var taskObj = {
       name: name,
       createdAt: new Date(),
       owner: Meteor.userId(), // logged-in user_id
+      duedate: duedate,
       subtasks: [],
       intervals: [],
       complete: false
@@ -46,36 +35,31 @@ Meteor.methods({
     });
   },
   deleteTask: function (taskId) {
-    console.log("deleting task "+taskId);
     var task = Tasks.findOne(taskId);
-    if (task.owner !== Meteor.userId()) {
-      // throwing error here means remove() below will *not* be called
-      throw new Meteor.Error("not authorized");
-    }
-    // delete from parent
+    // delete from parent category
     Categories.update({tasks: taskId}, {$pull: {tasks: taskId}});
-    // delete children
+    // delete children subtasks
     for (idx in task.subtasks) {
       Meteor.call("deleteSubtask", task.subtasks[idx]);
     }
     Tasks.remove(taskId);
   },
   deleteSubtask: function (subtaskId) {
-    console.log("deleting subtask "+subtaskId);
-    // delete from parent
+    // delete from parent task
     Tasks.update({subtasks: subtaskId}, {$pull: {subtasks: subtaskId}});
     Subtasks.remove(Subtasks.findOne(subtaskId));
   },
   deleteCategory: function (categId) {
-    console.log("deleting categ "+categId);
     var categ = Categories.findOne(categId);
-    // ON DELETE CASCADE
+    // delete children tasks
     for (idx in categ.tasks) {
       Meteor.call("deleteTask", categ.tasks[idx]);
     }
     Categories.remove(categId);
   },
   addSubtask: function (name, taskId) {
+    if (!name) throw new Meteor.Error("no name passed");
+    if (!taskId) throw new Meteor.Error("no task passed");
     var subtask = {
       name: name,
       owner: Meteor.userId(),
