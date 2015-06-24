@@ -1,8 +1,5 @@
 ### Next steps
 
-* Improve formatting
-    * E.g. for duedates
-    * Nice [sAlert](http://s-alert.meteor.com/)
 * Add subtasks urls
 * Add interval
     * "Record" button
@@ -24,7 +21,11 @@
 2. When iterating through a Mongo array, you're actually
    iterating through the indexes into the array (why?)
 
-#### Schema
+### Cool libraries I found
+
+* Animated alerts with [sAlert](http://s-alert.meteor.com/)
+
+### Schema
 
 ```
 Category

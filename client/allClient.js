@@ -105,13 +105,17 @@ Template.category.onRendered(function() {
   });
 });
 
-Template.ifRealDate.realDate = function (d) {
-  return d.getTime() !== 0;
-};
+Template.ifRealDate.helpers({
+  realDate: function (duedate) {
+    return duedate.getTime() !== 0;
+  }
+});
 
-Template.ifDatePassed.datePassed = function (d) {
-  return d.getTime() < new Date().getTime();
-};
+Template.ifDatePassed.helpers({
+  datePassed : function (d) {
+    return d.getTime() < new Date().getTime();
+  }
+});
 
 Accounts.ui.config({
   passwordSignupFields: "USERNAME_ONLY"
