@@ -1,17 +1,18 @@
 head
-  title Todo List
+  title Trracker
 body
   .container
     header
-      h1 Todo List (#{incompleteCount})
+      h1 Trracker (#{incompleteCount})
       label.hide-complete
         input(type='checkbox', checked='#{hideComplete}')
         | Hide Completed Tasks
       +loginButtons
-    ul#outermost.list-group
-      each categories
-        +category
-    +newCategoryForm
+    if currentUser
+      ul#outermost.list-group
+        each categories
+          +category
+      +newCategoryForm
 
 template(name='newCategoryForm')
   form.new.new-category
@@ -35,6 +36,7 @@ template(name='newSubtaskForm')
 template(name='category')
   li.list-group-item
     button.delete.delete-category &times;
+    span.badge 3
     = name
     ul.list-group
       each tasks

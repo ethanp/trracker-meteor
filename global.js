@@ -17,6 +17,7 @@ Meteor.methods({
       tasks: []
     })
   },
+
   addTask: function (name, catId, duedate) {
     if (!name) throw new Meteor.Error("no name passed");
     if (!catId) throw new Meteor.Error("no category passed");
@@ -34,6 +35,7 @@ Meteor.methods({
       Categories.update({_id: catId}, {$addToSet: {tasks: taskId}});
     });
   },
+
   deleteTask: function (taskId) {
     var task = Tasks.findOne(taskId);
     // delete from parent category
@@ -44,11 +46,13 @@ Meteor.methods({
     }
     Tasks.remove(taskId);
   },
+
   deleteSubtask: function (subtaskId) {
     // delete from parent task
     Tasks.update({subtasks: subtaskId}, {$pull: {subtasks: subtaskId}});
     Subtasks.remove(Subtasks.findOne(subtaskId));
   },
+
   deleteCategory: function (categId) {
     var categ = Categories.findOne(categId);
     // delete children tasks
@@ -57,6 +61,7 @@ Meteor.methods({
     }
     Categories.remove(categId);
   },
+
   addSubtask: function (name, taskId) {
     if (!name) throw new Meteor.Error("no name passed");
     if (!taskId) throw new Meteor.Error("no task passed");
@@ -71,9 +76,11 @@ Meteor.methods({
       Tasks.update({_id: taskId}, {$addToSet: {subtasks: subTaskId}});
     });
   },
+
   setTaskComplete: function (taskId, complete) {
     Tasks.update(taskId, {$set: {complete: complete}});
   },
+
   setSubtaskComplete: function (subtaskId, complete) {
     Subtasks.update(subtaskId, {$set: {complete: complete}});
   }

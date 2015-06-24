@@ -1,15 +1,26 @@
 ### Next steps
 
+#### Front end
+* Add [contextual class][cc] to tasks based on duedate (as in the old trracker)
+* Reimplement "hide completed tasks"
+    * It was saved in `Session`, which would be fine, except then it should
+      default to "hidden", not shown
+* Space categories further apart from each other
+
+[cc]: http://getbootstrap.com/components/#list-group-contextual-classes
+
+#### Middle end
 * Add subtasks urls
 * Add interval
     * "Record" button
     * Including manual entry using [datetimepicker][dt]
         * Put it in "inline" mode
-    * Ensure intervals also `ON DELETE CASCADE`
+
+#### Back end
+* Ensure intervals also `ON DELETE CASCADE`
+
+#### Code quality
 * Switch to Coffeescript
-* Reimplement "hide completed tasks"
-    * It was saved in `Session`, which would be fine, except then it should
-      default to "hidden", not shown
 
 [boot-acct]: https://github.com/erobit/meteor-accounts-ui-bootstrap-dropdown
 [dt]: https://github.com/tsega/meteor-bootstrap3-datetimepicker/
