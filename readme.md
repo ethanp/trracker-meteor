@@ -5,7 +5,12 @@
 * Reimplement "hide completed tasks"
     * It was saved in `Session`, which would be fine, except then it should
       default to "hidden", not shown
-* Space categories further apart from each other
+* Find a better font (that also works in Chrome)
+* Move "checked:crossed-out" logic to subtasks from tasks
+    * Completed tasks should by default be *hidden*
+    * when you click the button to explicitly show them, they should be
+      *contextual class* `success` or whatever (aka. "green")
+* Make category, task, and subtask names in-place editable
 
 [cc]: http://getbootstrap.com/components/#list-group-contextual-classes
 
@@ -15,6 +20,10 @@
     * "Record" button
     * Including manual entry using [datetimepicker][dt]
         * Put it in "inline" mode
+* Make a side nav with
+    * List of categories, with bootstrap-labels summarizing "contextutal class"
+      info about tasks (wrt duedates, nahmean)
+    * 
 
 #### Back end
 * Ensure intervals also `ON DELETE CASCADE`

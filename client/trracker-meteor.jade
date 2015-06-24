@@ -12,36 +12,38 @@ body
       ul#outermost.list-group
         each categories
           +category
-      +newCategoryForm
+        +newCategoryForm
 
 template(name='newCategoryForm')
-  form.new.new-category
-    input(type='text', name='text', placeholder='Add new category')
+  li.list-group-item
+    form.new.new-category
+      input(type='text', name='text', placeholder='Add new category')
 
 template(name='newTaskForm')
-  form.new.new-task
-    input(type='text', name='text', placeholder='Add new task')
-    label Set duedate
-    .input-group.datetimepicker
-      span.input-group-addon
-        span.glyphicon.glyphicon-calendar
-      input.set-due-date.form-control(type='text', name='duedate')
-    //- "submitting a form by pressing enter without a submit button"
-    input(type='submit', style='position: absolute; left: -9999px')
+  li.list-group-item.padded-box
+    form.new.new-task
+      input(type='text', name='text', placeholder='Add new task')
+      label Set duedate (blank means no duedate)
+      .input-group.datetimepicker
+        span.input-group-addon
+          span.glyphicon.glyphicon-calendar
+        input.set-due-date.form-control(type='text', name='duedate')
+      //- "submitting a form by pressing enter without a submit button"
+      input(type='submit', style='position: absolute; left: -9999px')
 
 template(name='newSubtaskForm')
-  form.new.new-subtask
-    input(type='text', name='text', placeholder='Add new subtask')
+  li.list-group-item
+    form.new.new-subtask
+      input(type='text', name='text', placeholder='Add new subtask')
 
 template(name='category')
-  li.list-group-item
+  li.list-group-item.padded-box
     button.delete.delete-category &times;
-    span.badge 3
-    = name
+    b= name
     ul.list-group
       each tasks
         +task
-    +newTaskForm
+      +newTaskForm
 
 template(name='ifRealDate')
   if realDate this
@@ -61,19 +63,22 @@ template(name='task')
     input.toggle-complete(type='checkbox', checked='#{complete}')
     span.text= name
     +ifRealDate duedate
-      label Duedate:
+      br
+      label.task-field Duedate:
       = humanDuedate
+      br
       +ifDatePassed duedate
-        label Was due:
+        label.task-field Was due:
       else
-        label Due:
+        label.task-field Due:
         = humanTimeRemaining
     else
-      b || No duedate
+      br
+      label.task-field No duedate
     ul.list-group
       each subtasks
         +subtask
-    +newSubtaskForm
+      +newSubtaskForm
 
 template(name='subtask')
   li.list-group-item
