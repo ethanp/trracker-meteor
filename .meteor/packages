@@ -12,3 +12,4 @@ tsega:bootstrap3-datetimepicker
 momentjs:moment
 mquandalle:jade
 fourseven:scss
+oaf:moment-duration-format

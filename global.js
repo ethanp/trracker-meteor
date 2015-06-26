@@ -28,7 +28,8 @@ Meteor.methods({
       duedate: duedate,
       subtasks: [],
       intervals: [],
-      complete: false
+      complete: false,
+      timeSpent: 0
     };
     Tasks.insert(taskObj, function (err, taskId) {
       if (err) return;
@@ -95,5 +96,9 @@ Meteor.methods({
 
   renameSubtask: function (newName, id) {
     Subtasks.update(id, {$set: {name: newName}});
+  },
+
+  addTime: function(time, id) {
+    Tasks.update(id, {$inc: {timeSpent: time}});
   }
 });

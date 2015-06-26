@@ -1,5 +1,4 @@
 body
-  font-family: sans-serif
   background-color: #315481
   background-image: linear-gradient(to bottom, #315481, #918e82 100%)
   background-attachment: fixed
@@ -65,7 +64,10 @@ input[type=text][name=text]
 
 .rename-category
   font-size: 150%
-  margin-bottom: .2em
+  margin: .3em .2em .4em 0
+
+.rename-task
+  font-size: 125%
 
 .in-place:hover
     background-color: #f9f9f9
@@ -79,6 +81,9 @@ input[type=text][name=text]
 .new input:focus
   outline: 0
 
+.new-task input
+  padding: .8em .8em .8em .6em
+
 ul
   margin: 5px
   margin-right: 0
@@ -87,6 +92,13 @@ ul
 
 #outermost
   margin-right: 15px
+
+.time-area
+  float: right
+  margin: .5em .5em 0 0
+
+.rightmost
+  margin-right: 2em
 
 .delete
   float: right
@@ -99,8 +111,10 @@ ul
 li
   position: relative // no effect? not sure...
   list-style: none // don't show the 'bullet' on the left
-  padding: 15px // space things out a bit better
+  padding: 10px
+  border: 0
   padding-right: 0
+  line-height: normal
   .text
     margin-left: 10px
 

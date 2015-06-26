@@ -61,6 +61,7 @@ template(name='ifDatePassed')
 template(name='task')
   li(class='{{#if complete}}checked{{/if}}').list-group-item
     button.delete.delete-task &times;
+
     input.toggle-complete(type='checkbox', checked='#{complete}')
     form
       input(type='text', value='{{name}}').rename-task.in-place
@@ -73,18 +74,27 @@ template(name='task')
         label.task-field Was due:
       else
         label.task-field Due:
-        = humanTimeRemaining
+      = humanRelativeTime
     else
       br
       label.task-field No duedate
+    br
+    label.task-field Time Spent:
+    if timeSpent
+      = duration
+    else
+      = "None"
+    span.label.label-warning.time-area.rightmost.minus-15= "-1/4hr"
+    span.label.label-info.time-area.plus-15= "+1/4hr"
+    span.label.label-success.time-area.plus-30= "+1/2hr"
     ul.list-group
       each subtasks
         +subtask
       +newSubtaskForm
 
 template(name='subtask')
-  li.list-group-item
+  li(class='{{#if complete}}checked{{/if}}').list-group-item
     button.delete.delete-subtask &times;
     input.toggle-complete(type='checkbox', checked='#{complete}')
     form
-      input(type='text', value='{{name}}').rename-subtask.in-place
+      input(type='text', value='{{name}}').rename-subtask.in-place.text

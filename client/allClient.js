@@ -47,15 +47,6 @@ Template.body.events({
   },
   "change .hide-complete input": function (event) {
     Session.set("hideComplete", event.target.checked);
-  },
-  "keyup .rename-category": function (event) {
-    Meteor.call("renameCategory", event.target.value, this._id);
-  },
-  "keyup .rename-task": function (event) {
-    Meteor.call("renameTask", event.target.value, this._id);
-  },
-  "keyup .rename-subtask": function (event) {
-    Meteor.call("renameSubtask", event.target.value, this._id);
   }
 })
 
@@ -69,9 +60,12 @@ Template.task.helpers({
   humanDuedate: function() {
     return moment(this.duedate).format('MMMM Do YYYY, h:mm a');
   },
-  humanTimeRemaining: function() {
+  humanRelativeTime: function() {
     return moment(this.duedate).fromNow();
   },
+  duration: function() {
+    return moment.duration(this.timeSpent, "minutes").format("h [hrs], m [mins]");
+  }
 });
 
 Template.category.helpers({
@@ -86,6 +80,18 @@ Template.task.events({
   },
   "click .delete-task": function() {
     Meteor.call("deleteTask", this._id);
+  },
+  "keyup .in-place": function (event) {
+    Meteor.call("renameTask", event.target.value, this._id);
+  },
+  "click .plus-30": function () {
+    Meteor.call("addTime", 30, this._id);
+  },
+  "click .plus-15": function () {
+    Meteor.call("addTime", 15, this._id);
+  },
+  "click .minus-15": function () {
+    Meteor.call("addTime", -15, this._id);
   }
 });
 
@@ -95,12 +101,18 @@ Template.subtask.events({
   },
   "click .delete-subtask": function() {
     Meteor.call("deleteSubtask", this._id);
+  },
+  "keyup .in-place": function (event) {
+    Meteor.call("renameSubtask", event.target.value, this._id);
   }
 });
 
 Template.category.events({
   "click .delete-category": function() {
     Meteor.call("deleteCategory", this._id);
+  },
+  "keyup .in-place": function (event) {
+    Meteor.call("renameCategory", event.target.value, this._id);
   }
 });
 

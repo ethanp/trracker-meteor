@@ -2,30 +2,24 @@
 
 #### Front end
 * Add [contextual class][cc] to tasks based on duedate (as in the old trracker)
-* Reimplement "hide completed tasks"
-    * It was saved in `Session`, which would be fine, except then it should
-      default to "hidden", not shown
-* Find a better font (that also works in Chrome)
-* Move "checked:crossed-out" logic to subtasks from tasks
-    * Completed tasks should by default be *hidden*
+* Completed tasks should by default be *hidden*
     * when you click the button to explicitly show them, they should be
       *contextual class* `success` or whatever (aka. "green")
+    * whether you're showing them or not should be sticky across reloads
+* Show/Hide via slidy-thing
+    * Tasks in Categories
+    * Subtasks in Tasks
 
 [cc]: http://getbootstrap.com/components/#list-group-contextual-classes
 
 #### Middle end
 * Add subtasks urls
-* Add interval
-    * "Record" button
-    * Including manual entry using [datetimepicker][dt]
-        * Put it in "inline" mode
+* Instead of intervals, there should just be a total time spent
+    * This trracker is about seeing how long it took, not seeing when you did
+      it. That whole thing had more cons than pros.
 * Make a side nav with
     * List of categories, with bootstrap-labels summarizing "contextutal class"
       info about tasks (wrt duedates, nahmean)
-    * 
-
-#### Back end
-* Ensure intervals also `ON DELETE CASCADE`
 
 #### Code quality
 * Switch to Coffeescript
@@ -65,22 +59,14 @@ Task
     duedate,
     owner,
     complete,
-    isRecording,
+    timeSpent,
     [subtasks],
-    [intervals]
 }
 
 Subtask
 {
     name,
     url,
-    owner
-}
-
-Interval
-{
-    startTime,
-    endTime,
     owner
 }
 ```
