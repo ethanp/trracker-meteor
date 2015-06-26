@@ -10,7 +10,6 @@
     * Completed tasks should by default be *hidden*
     * when you click the button to explicitly show them, they should be
       *contextual class* `success` or whatever (aka. "green")
-* Make category, task, and subtask names in-place editable
 
 [cc]: http://getbootstrap.com/components/#list-group-contextual-classes
 
@@ -30,6 +29,9 @@
 
 #### Code quality
 * Switch to Coffeescript
+
+#### Eventually
+* Make it work on iOS
 
 [boot-acct]: https://github.com/erobit/meteor-accounts-ui-bootstrap-dropdown
 [dt]: https://github.com/tsega/meteor-bootstrap3-datetimepicker/

@@ -30,10 +30,6 @@ var addFunc = function (event, func, id) {
 }
 
 Template.body.events({
-  /* this right here is a dictionary
-   in which all keys are events to listen for
-   and values are their event handlers */
-
   "submit .new-task": function (event) {
     console.log(event)
     var name = event.target.text.value;
@@ -51,6 +47,15 @@ Template.body.events({
   },
   "change .hide-complete input": function (event) {
     Session.set("hideComplete", event.target.checked);
+  },
+  "keyup .rename-category": function (event) {
+    Meteor.call("renameCategory", event.target.value, this._id);
+  },
+  "keyup .rename-task": function (event) {
+    Meteor.call("renameTask", event.target.value, this._id);
+  },
+  "keyup .rename-subtask": function (event) {
+    Meteor.call("renameSubtask", event.target.value, this._id);
   }
 })
 

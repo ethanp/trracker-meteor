@@ -29,7 +29,7 @@ template(name='newTaskForm')
           span.glyphicon.glyphicon-calendar
         input.set-due-date.form-control(type='text', name='duedate')
       //- "submitting a form by pressing enter without a submit button"
-      input(type='submit', style='position: absolute; left: -9999px')
+      input(type='submit').off-screen
 
 template(name='newSubtaskForm')
   li.list-group-item
@@ -39,7 +39,8 @@ template(name='newSubtaskForm')
 template(name='category')
   li.list-group-item.padded-box
     button.delete.delete-category &times;
-    b= name
+    form
+      input(type='text', value='{{name}}').rename-category.in-place
     ul.list-group
       each tasks
         +task
@@ -61,7 +62,8 @@ template(name='task')
   li(class='{{#if complete}}checked{{/if}}').list-group-item
     button.delete.delete-task &times;
     input.toggle-complete(type='checkbox', checked='#{complete}')
-    span.text= name
+    form
+      input(type='text', value='{{name}}').rename-task.in-place
     +ifRealDate duedate
       br
       label.task-field Duedate:
@@ -84,4 +86,5 @@ template(name='subtask')
   li.list-group-item
     button.delete.delete-subtask &times;
     input.toggle-complete(type='checkbox', checked='#{complete}')
-    span.text {{name}}
+    form
+      input(type='text', value='{{name}}').rename-subtask.in-place

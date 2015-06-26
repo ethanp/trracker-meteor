@@ -83,5 +83,17 @@ Meteor.methods({
 
   setSubtaskComplete: function (subtaskId, complete) {
     Subtasks.update(subtaskId, {$set: {complete: complete}});
+  },
+
+  renameCategory: function (newName, id) {
+    Categories.update(id, {$set: {name: newName}});
+  },
+
+  renameTask: function (newName, id) {
+    Tasks.update(id, {$set: {name: newName}});
+  },
+
+  renameSubtask: function (newName, id) {
+    Subtasks.update(id, {$set: {name: newName}});
   }
 });
