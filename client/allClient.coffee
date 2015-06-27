@@ -20,23 +20,27 @@ Template.task.helpers
   humanRelativeTime: -> moment(@duedate).fromNow()
   duration: -> moment.duration(@timeSpent, 'minutes').format 'h [hrs], m [mins]'
 
-addFunc = (e, func, id) ->
-  name = e.target.text.value
-  Meteor.call func, name, id
-  e.target.text.value = ''
-  false
-
 Template.body.events
   'submit .new-task': (e) ->
-    console.log e
     name = e.target.text.value
     duedate = moment(e.target.duedate.value).toDate()
     Meteor.call 'addTask', name, @_id, duedate
     e.target.text.value = ''
     e.target.duedate.value = ''
     false
-  'submit .new-category': (e) -> addFunc e, 'addCategory', @_id
-  'submit .new-subtask': (e) -> addFunc e, 'addSubtask', @_id
+  'submit .new-category': (e) ->
+    name = e.target.text.value
+    Meteor.call 'addCategory', name, @_id
+    e.target.text.value = ''
+    false
+  'submit .new-subtask': (e) ->
+    name = e.target.text.value
+    url = e.target.url.value
+    Meteor.call 'addSubtask', name, url, @_id
+    e.target.text.value = ''
+    e.target.url.value = ''
+    false
+  'submit .in-place': -> false # prevents reload
 
 Template.category.events
   'click .delete-category': -> Meteor.call 'deleteCategory', @_id

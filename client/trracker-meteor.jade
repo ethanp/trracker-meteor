@@ -32,6 +32,8 @@ template(name='newSubtaskForm')
   li.list-group-item
     form.new.new-subtask
       input(type='text', name='text', placeholder='New Subtask')
+      input(type='text', name='url', placeholder='Paste URL').borderless
+      input(type='submit').off-screen
 
 template(name='category')
   li.list-group-item.padded-box
@@ -62,7 +64,6 @@ template(name='ifDatePassed')
 template(name='task')
   li(class='{{#if complete}}checked{{/if}}').list-group-item
     button.delete.delete-task &times;
-
     input.toggle-complete(type='checkbox', checked='#{complete}')
     form
       input(type='text', value='{{name}}').rename-task.in-place
@@ -99,3 +100,5 @@ template(name='subtask')
     input.toggle-complete(type='checkbox', checked='#{complete}')
     form
       input(type='text', value='{{name}}').rename-subtask.in-place.text
+      if url
+        a(href='#{url}').subtask-link link

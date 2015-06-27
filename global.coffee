@@ -35,12 +35,12 @@ Meteor.methods
     for idx of categ.tasks
       Meteor.call 'deleteTask', categ.tasks[idx]
     Categories.remove categId
-  addSubtask: (name, taskId) ->
+  addSubtask: (name, url, taskId) ->
     subtask =
       name: name
       owner: Meteor.userId()
       complete: false
-      url: 'http://www.google.com'
+      url: url
     Subtasks.insert subtask, (err, subTaskId) ->
       if err then return
       Tasks.update { _id: taskId }, $addToSet: subtasks: subTaskId

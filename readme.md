@@ -10,7 +10,6 @@
 [cc]: http://getbootstrap.com/components/#list-group-contextual-classes
 
 #### Middle end
-* Add subtasks urls
 * Make a side nav with
     * List of categories, with bootstrap-labels summarizing "contextutal class"
       info about tasks (wrt duedates, nahmean)
