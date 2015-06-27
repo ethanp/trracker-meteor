@@ -13,3 +13,4 @@ momentjs:moment
 mquandalle:jade
 fourseven:scss
 oaf:moment-duration-format
+coffeescript

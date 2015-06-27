@@ -9,23 +9,19 @@
 * Show/Hide via slidy-thing
     * Tasks in Categories
     * Subtasks in Tasks
+* Duedate setter should slide out when there is text in the "New Task" `input`
 
 [cc]: http://getbootstrap.com/components/#list-group-contextual-classes
 
 #### Middle end
 * Add subtasks urls
-* Instead of intervals, there should just be a total time spent
-    * This trracker is about seeing how long it took, not seeing when you did
-      it. That whole thing had more cons than pros.
 * Make a side nav with
     * List of categories, with bootstrap-labels summarizing "contextutal class"
       info about tasks (wrt duedates, nahmean)
 
-#### Code quality
-* Switch to Coffeescript
-
 #### Eventually
-* Make it work on iOS
+* Make it work on iOS via Swift over REST API
+    * The default iOS styling is not really good-enough
 
 [boot-acct]: https://github.com/erobit/meteor-accounts-ui-bootstrap-dropdown
 [dt]: https://github.com/tsega/meteor-bootstrap3-datetimepicker/
