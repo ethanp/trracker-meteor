@@ -4,9 +4,6 @@ body
   .container
     header
       h1 Trracker (#{incompleteCount})
-      label.hide-complete
-        input(type='checkbox', checked='#{hideComplete}')
-        | Hide Completed Tasks
       +loginButtons
     if currentUser
       ul#outermost.list-group
@@ -41,6 +38,10 @@ template(name='category')
     button.delete.delete-category &times;
     form
       input(type='text', value='{{name}}').rename-category.in-place
+    label.show-complete
+      input(type='checkbox', checked='#{showComplete}')
+      | Show Completed Tasks
+
     ul.list-group
       each tasks
         +task

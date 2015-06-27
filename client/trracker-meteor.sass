@@ -12,7 +12,7 @@ body
   font-size: 18px
 
 .container
-  max-width: 600px
+  max-width: 700px
   margin: 0 auto
   min-height: 100%
   background: white
@@ -61,6 +61,7 @@ input[type=text][name=text]
   border: none
   display: inline
   margin-left: .3em
+  width: 90%
 
 .rename-category
   font-size: 150%
@@ -109,7 +110,6 @@ ul
   position: relative
 
 li
-  position: relative // no effect? not sure...
   list-style: none // don't show the 'bullet' on the left
   padding: 10px
   border: 0
@@ -130,8 +130,9 @@ li.checked
   .text
     text-decoration: line-through
 
-header .hide-complete
-  float: right
+.show-complete
+  font-size: 70%
+  font-weight: normal
 
 @media (max-width: 600px)
   li

@@ -3,17 +3,15 @@ Meteor.subscribe 'categories'
 Meteor.subscribe 'subtasks'
 
 Template.body.helpers
-  tasks: ->
-    if Session.get('hideComplete')
-      Tasks.find { complete: $ne: true }, sort: createdAt: -1
-    else
-      Tasks.find {}, sort: createdAt: -1
-  hideComplete: -> Session.get 'hideComplete'
   incompleteCount: -> Tasks.find(complete: $ne: true).count()
   categories: -> Categories.find()
 
 Template.category.helpers
-  tasks: -> Tasks.find _id: $in: @tasks
+  tasks: ->
+    if Categories.findOne(this).showComplete
+      Tasks.find { _id: $in: @tasks }, sort: createdAt: -1
+    else
+      Tasks.find {_id: { $in: @tasks }, complete: $ne: true }, sort: createdAt: -1
 
 Template.task.helpers
   isOwner: -> @owner == Meteor.userId()
@@ -39,11 +37,12 @@ Template.body.events
     false
   'submit .new-category': (e) -> addFunc e, 'addCategory', @_id
   'submit .new-subtask': (e) -> addFunc e, 'addSubtask', @_id
-  'change .hide-complete input': (e) -> Session.set 'hideComplete', e.target.checked
 
 Template.category.events
   'click .delete-category': -> Meteor.call 'deleteCategory', @_id
   'keyup .in-place': (e) -> Meteor.call 'renameCategory', e.target.value, @_id
+  'change .show-complete input': (e) ->
+    Meteor.call 'showComplete', e.target.checked, @_id
 
 Template.task.events
   'click .toggle-complete': -> Meteor.call 'setTaskComplete', @_id, !@complete

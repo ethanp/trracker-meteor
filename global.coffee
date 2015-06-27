@@ -1,17 +1,11 @@
-### these methods are "latency compensated" (cool!) ###
-
 Meteor.methods
   addCategory: (name) ->
-    if !name
-      throw new Meteor.Error 'no name passed'
     Categories.insert
       name: name
       createdAt: new Date
       owner: Meteor.userId()
       tasks: []
   addTask: (name, catId, duedate) ->
-    unless name then throw new Meteor.Error 'no name passed'
-    unless catId then throw new Meteor.Error 'no category passed'
     taskObj =
       name: name
       createdAt: new Date
@@ -29,7 +23,6 @@ Meteor.methods
     Categories.update { tasks: taskId }, $pull: tasks: taskId
     # delete children subtasks
     for idx of task.subtasks
-      `idx = idx`
       Meteor.call 'deleteSubtask', task.subtasks[idx]
     Tasks.remove taskId
   deleteSubtask: (subtaskId) ->
@@ -43,8 +36,6 @@ Meteor.methods
       Meteor.call 'deleteTask', categ.tasks[idx]
     Categories.remove categId
   addSubtask: (name, taskId) ->
-    unless name then Meteor.Error 'no name passed'
-    unless taskId then Meteor.Error 'no name passed'
     subtask =
       name: name
       owner: Meteor.userId()
@@ -65,3 +56,5 @@ Meteor.methods
     Subtasks.update id, $set: name: newName
   addTime: (time, id) ->
     Tasks.update id, $inc: timeSpent: time
+  showComplete: (checked, categID) ->
+    Categories.update categID, $set: showComplete: checked

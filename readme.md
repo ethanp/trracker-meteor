@@ -2,10 +2,6 @@
 
 #### Front end
 * Add [contextual class][cc] to tasks based on duedate (as in the old trracker)
-* Completed tasks should by default be *hidden*
-    * when you click the button to explicitly show them, they should be
-      *contextual class* `success` or whatever (aka. "green")
-    * whether you're showing them or not should be sticky across reloads
 * Show/Hide via slidy-thing
     * Tasks in Categories
     * Subtasks in Tasks
