@@ -62,7 +62,7 @@ template(name='ifDatePassed')
     +UI.elseBlock
 
 template(name='task')
-  li(class='{{#if complete}}checked{{/if}}').list-group-item
+  li(class='{{liClasses}}').list-group-item
     button.delete.delete-task &times;
     input.toggle-complete(type='checkbox', checked='#{complete}')
     form

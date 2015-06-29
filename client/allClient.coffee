@@ -2,6 +2,13 @@ Meteor.subscribe 'tasks'
 Meteor.subscribe 'categories'
 Meteor.subscribe 'subtasks'
 
+# Date Utilities
+oneWeekFromNow = (new Date).getTime() + (1000 * 60 * 60 * 24 * 7)
+isDate = (d) -> d and d.getTime() != 0
+beyond = (d) -> isDate(d) and d.getTime() < (new Date).getTime()
+soon = (d) -> isDate(d) and not beyond(d) and d.getTime() < oneWeekFromNow
+
+
 Template.body.helpers
   incompleteCount: -> Tasks.find(complete: $ne: true).count()
   categories: -> Categories.find()
@@ -19,6 +26,14 @@ Template.task.helpers
   humanDuedate: -> moment(@duedate).format 'MMMM Do YYYY, h:mm a'
   humanRelativeTime: -> moment(@duedate).fromNow()
   duration: -> moment.duration(@timeSpent, 'minutes').format 'h [hrs], m [mins]'
+  liClasses: ->
+    result = ''
+    if @complete
+      result += 'checked '
+    if beyond @duedate
+      result += 'list-group-item-danger '
+    if soon @duedate
+      result += 'list-group-item-warning '
 
 Template.body.events
   'submit .new-task': (e) ->
@@ -63,5 +78,5 @@ Template.subtask.events
 
 Template.category.onRendered -> @$('.datetimepicker').datetimepicker sideBySide: true
 Template.ifRealDate.helpers realDate: (duedate) -> duedate.getTime() != 0
-Template.ifDatePassed.helpers datePassed: (d) -> d.getTime() < (new Date).getTime()
+Template.ifDatePassed.helpers datePassed: (d) -> beyond d
 Accounts.ui.config passwordSignupFields: 'USERNAME_ONLY'
