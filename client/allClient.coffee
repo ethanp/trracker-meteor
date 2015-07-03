@@ -3,10 +3,10 @@ Meteor.subscribe 'categories'
 Meteor.subscribe 'subtasks'
 
 # Date Utilities
-oneWeekFromNow = (new Date).getTime() + (1000 * 60 * 60 * 24 * 7)
+oneWeekFromNow = -> (new Date).getTime() + (1000 * 60 * 60 * 24 * 7)
 isDate = (d) -> d and d.getTime() != 0
 beyond = (d) -> isDate(d) and d.getTime() < (new Date).getTime()
-soon = (d) -> isDate(d) and not beyond(d) and d.getTime() < oneWeekFromNow
+soon = (d) -> isDate(d) and not beyond(d) and d.getTime() < oneWeekFromNow()
 
 
 Template.body.helpers
@@ -34,6 +34,7 @@ Template.task.helpers
       result += 'list-group-item-danger '
     if soon @duedate
       result += 'list-group-item-warning '
+    result
 
 Template.body.events
   'submit .new-task': (e) ->
@@ -74,7 +75,43 @@ Template.task.events
 Template.subtask.events
   'click .toggle-complete': -> Meteor.call 'setSubtaskComplete', @_id, !@complete
   'click .delete-subtask': -> Meteor.call 'deleteSubtask', @_id
-  'keyup .in-place': (e) -> Meteor.call 'renameSubtask', e.target.value, @_id
+  'keyup .rename-subtask': (e) -> Meteor.call 'renameSubtask', e.target.value, @_id
+  'submit .edit-link-form': (e) ->
+    # update mongo, and remove the form
+    Meteor.call 'editLink', e.target.edited.value, @_id
+    $li = $(e.target).parent()
+    $li.removeClass('editing-link')
+    $('.edit-link-form').remove()
+    false
+
+  'click .edit-link': (e) ->
+    $editButton = $(e.target)
+    $li = $editButton.parent().parent()
+
+    # hide the form if it's showing
+    if $li.hasClass('editing-link')
+      $li.removeClass('editing-link')
+      $('.edit-link-form').remove()
+      return false
+
+    $li.addClass('editing-link')
+
+    existingLink = $editButton.parent().children('a[href]').attr('href')
+
+    # insert the in-place edit form
+    $form = $('<form>').addClass('edit-link-form')
+    $label = $('<label>').text('Edit Url: ')
+    $input = $('<input>')
+        .attr('type', 'text')
+        .attr('name', 'edited')
+        .attr('value', existingLink)
+        .addClass('in-place')
+        .addClass('rename-link')
+
+    $li.append(
+      $form
+        .append($label)
+        .append($input))
 
 Template.category.onRendered -> @$('.datetimepicker').datetimepicker sideBySide: true
 Template.ifRealDate.helpers realDate: (duedate) -> duedate.getTime() != 0

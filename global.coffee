@@ -58,3 +58,5 @@ Meteor.methods
     Tasks.update id, $inc: timeSpent: time
   showComplete: (checked, categID) ->
     Categories.update categID, $set: showComplete: checked
+  editLink: (url, id) ->
+    Subtasks.update id, $set: url: url
