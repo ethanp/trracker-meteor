@@ -13,6 +13,11 @@ Template.topNav.helpers
 
 Template.sideNav.helpers
   categories: -> Categories.find()
+  incompletes: -> Tasks.find(_id: { $in: @tasks }, complete: $ne: true).count()
+  categLabelColor: ->
+    # any way to just call the incompletes() method above?
+    incompletes = Tasks.find(_id: { $in: @tasks }, complete: $ne: true).count()
+    if incompletes then 'warning' else 'success'
 
 Template.userCategories.helpers
   categories: -> Categories.find()

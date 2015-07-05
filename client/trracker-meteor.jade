@@ -21,7 +21,9 @@ template(name='topNav')
 template(name='sideNav')
   nav.affix
     each categories
-      a.list-group-item(href='/##{name}') #{name}
+      a.list-group-item(href='/##{name}')
+        = name
+        span.label.incompletes(class='label-#{categLabelColor}')= incompletes
 
 template(name='userCategories')
   ul#outermost.list-group
