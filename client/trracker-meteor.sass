@@ -30,12 +30,6 @@ header
   float: right
   margin-left: 2em
 
-.new-task-form.padded-box
-  display: none
-  padding-bottom: 20px
-  padding-top: 0
-  margin-top: 10px
-
 .new-task-button
   margin-top: 1em
   margin-bottom: 0
@@ -140,6 +134,10 @@ li
   line-height: normal
   .text
     margin-left: 10px
+  .checked
+    color: #988
+    .text
+      text-decoration: line-through
 
 .grey-text
   color: #988
@@ -147,15 +145,16 @@ li
 .padded-box
   margin-bottom: 15px
   padding-bottom: 0
+  .new-task-form
+    display: none
+    padding-bottom: 20px
+    padding-top: 0
+    margin-top: 10px
+
 
 hr.no-space
   margin: .1em 0
   padding: .1em 0
-
-li.checked
-  color: #988
-  .text
-    text-decoration: line-through
 
 .show-complete
   font-size: 70%
