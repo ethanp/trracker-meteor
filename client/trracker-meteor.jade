@@ -1,15 +1,33 @@
 head
   title Trracker
 body
+  //- this is the responsive "fixed width" container for bootstrap's grid system
+  //- use "container-fluid" for a full width (ie. resizing) container
   .container
-    header
-      h1 Trracker (#{incompleteCount})
+    +topNav
+    .row
+      .col-xs-3#sidebar(role='complementary')
+        +sideNav
+      .col-xs-9(role='main')
+        if currentUser
+          +userCategories
+
+template(name='topNav')
+  .navbar.navbar-default(role='navigation')
+    h3.text-center Trracker (#{incompleteCount})
+    h4.text-center
       +loginButtons
-    if currentUser
-      ul#outermost.list-group
-        each categories
-          +category
-        +newCategoryForm
+
+template(name='sideNav')
+  nav.affix
+    each categories
+      a.list-group-item(href='/##{name}') #{name}
+
+template(name='userCategories')
+  ul#outermost.list-group
+    each categories
+      +category
+    +newCategoryForm
 
 template(name='newCategoryForm')
   li.list-group-item
@@ -33,14 +51,14 @@ template(name='newSubtaskForm')
     form.new.new-subtask
       input(type='text', name='text', placeholder='New Subtask')
       hr.no-space
-      input(type='text', name='url', placeholder='Paste URL').borderless
+      input.borderless(type='text', name='url', placeholder='Paste URL')
       input(type='submit').off-screen
 
 template(name='category')
-  li.list-group-item.padded-box
+  li.list-group-item.padded-box(id='{{name}}')
     button.delete.delete-category &times;
     form
-      input(type='text', value='{{name}}').rename-category.in-place
+      input.rename-category.in-place(type='text', value='{{name}}')
     label.show-complete
       input(type='checkbox', checked='#{showComplete}')
       | Show Completed Tasks
@@ -69,7 +87,7 @@ template(name='task')
       span.label.label-info.time-area.plus-15= "+1/4hr"
     input.toggle-complete(type='checkbox', checked='#{complete}')
     form
-      input(type='text', value='{{name}}').rename-task.in-place
+      input.rename-task.in-place(type='text', value='{{name}}')
 
     +ifRealDate duedate
       br
@@ -94,11 +112,11 @@ template(name='task')
       +newSubtaskForm
 
 template(name='subtask')
-  li(class='{{#if complete}}checked{{/if}}').list-group-item
+  li.list-group-item(class='{{#if complete}}checked{{/if}}')
     button.delete.delete-subtask &times;
     input.toggle-complete(type='checkbox', checked='#{complete}')
     form
-      input(type='text', value='{{name}}').rename-subtask.in-place.text
+      input.rename-subtask.in-place.text(type='text', value='{{name}}')
       if url
-        a(href='#{url}').subtask-link link
+        a.subtask-link(href='#{url}') link
         a.glyphicon.glyphicon-file.edit-link

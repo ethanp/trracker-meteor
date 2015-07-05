@@ -48,14 +48,14 @@ Meteor.methods
 
   # update category
   renameCategory: (newName, id) -> Categories.update id, $set: name: newName
-  showComplete: (b, id)         -> Categories.update id, $set: showComplete: b
+  showComplete:         (b, id) -> Categories.update id, $set: showComplete: b
 
   # update task
-  renameTask: (newName, id)     -> Tasks.update id, $set: name: newName
-  setTaskComplete: (id, c)      -> Tasks.update id, $set: complete: c
-  addTime: (time, id)           -> Tasks.update id, $inc: timeSpent: time
+  renameTask:     (newName, id) -> Tasks.update id, $set: name: newName
+  setTaskComplete:      (id, c) -> Tasks.update id, $set: complete: c
+  addTime:           (time, id) -> Tasks.update id, $inc: timeSpent: time
 
   # update subtask
-  renameSubtask: (newName, id)  -> Subtasks.update id, $set: name: newName
-  setSubtaskComplete: (id, c)   -> Subtasks.update id, $set: complete: c
-  editLink: (url, id)           -> Subtasks.update id, $set: url: url
+  renameSubtask:  (newName, id) -> Subtasks.update id, $set: name: newName
+  setSubtaskComplete:   (id, c) -> Subtasks.update id, $set: complete: c
+  editLink:           (url, id) -> Subtasks.update id, $set: url: url

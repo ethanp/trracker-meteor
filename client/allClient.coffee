@@ -8,9 +8,13 @@ isDate = (d) -> d and d.getTime() != 0
 beyond = (d) -> isDate(d) and d.getTime() < (new Date).getTime()
 soon = (d) -> isDate(d) and not beyond(d) and d.getTime() < oneWeekFromNow()
 
-
-Template.body.helpers
+Template.topNav.helpers
   incompleteCount: -> Tasks.find(complete: $ne: true).count()
+
+Template.sideNav.helpers
+  categories: -> Categories.find()
+
+Template.userCategories.helpers
   categories: -> Categories.find()
 
 Template.category.helpers
@@ -85,6 +89,12 @@ Template.subtask.events
     false
 
   'click .edit-link': (e) ->
+
+    # TODO this should be a TEMPLATE that is loaded on each subtask by default
+    # but with display: none
+    # then all this has to do is .show() it and .hide() it
+    # my gut is that the current way below is bad style
+
     $editButton = $(e.target)
     $li = $editButton.parent().parent()
 
@@ -95,23 +105,13 @@ Template.subtask.events
       return false
 
     $li.addClass('editing-link')
-
     existingLink = $editButton.parent().children('a[href]').attr('href')
-
-    # insert the in-place edit form
-    $form = $('<form>').addClass('edit-link-form')
     $label = $('<label>').text('Edit Url: ')
-    $input = $('<input>')
-        .attr('type', 'text')
-        .attr('name', 'edited')
-        .attr('value', existingLink)
-        .addClass('in-place')
-        .addClass('rename-link')
+    $input = $('<input>').addClass('in-place rename-link').attr
+      type: 'text', name: 'edited', value: existingLink
 
-    $li.append(
-      $form
-        .append($label)
-        .append($input))
+    $form = $('<form>').addClass('edit-link-form').append($label).append($input)
+    $li.append $form
 
 Template.category.onRendered -> @$('.datetimepicker').datetimepicker sideBySide: true
 Template.ifRealDate.helpers realDate: (duedate) -> duedate.getTime() != 0
