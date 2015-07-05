@@ -37,7 +37,8 @@ template(name='newCategoryForm')
       input(type='text', name='text', placeholder='New Category')
 
 template(name='newTaskForm')
-  li.list-group-item.padded-box
+  button.btn.btn-sm.btn-success.new-task-button(id='new-task-button-{{_id}}') New Task
+  li.list-group-item.padded-box.new-task-form(id='new-task-form-{{_id}}')
     form.new.new-task
       input(type='text', name='text', placeholder='New Task')
       label Set duedate (blank means no duedate)

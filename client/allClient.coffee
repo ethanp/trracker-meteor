@@ -118,6 +118,11 @@ Template.subtask.events
     $form = $('<form>').addClass('edit-link-form').append($label).append($input)
     $li.append $form
 
+Template.newTaskForm.events
+  'click .new-task-button': ->
+    id = event.target.id.substring(event.target.id.lastIndexOf('-')+1)
+    $('#new-task-form-'+id).toggle()
+
 Template.category.onRendered -> @$('.datetimepicker').datetimepicker sideBySide: true
 Template.ifRealDate.helpers realDate: (duedate) -> duedate.getTime() != 0
 Template.ifDatePassed.helpers datePassed: (d) -> beyond d
