@@ -58,20 +58,6 @@ template(name='newSubtaskForm')
       input.borderless(type='text', name='url', placeholder='Paste URL')
       input(type='submit').off-screen
 
-template(name='category')
-  li.list-group-item.padded-box(id='{{name}}')
-    button.delete.delete-category &times;
-    form
-      input.rename-category.in-place(type='text', value='{{name}}')
-    label.show-complete
-      input(type='checkbox', checked='#{showComplete}')
-      | Show Completed Tasks
-
-    ul.list-group
-      each tasks
-        +task
-      +newTaskForm
-
 template(name='ifRealDate')
   if realDate this
     +UI.contentBlock
@@ -83,6 +69,20 @@ template(name='ifDatePassed')
     +UI.contentBlock
   else
     +UI.elseBlock
+
+template(name='category')
+  li.list-group-item.padded-box(id='{{name}}')
+    button.delete.delete-category &times;
+    form
+      input.rename-category.in-place(type='text', value='{{name}}')
+    label.show-complete
+      input(type='checkbox', checked='#{showComplete}')
+      | Show Completed Tasks
+    ul.list-group.tasks-list(id='tasks-list-{{_id}}')
+      each tasks
+        +task
+      +newTaskForm
+    button.btn.btn-xs.btn-default.show-button.show-tasks-button(id='show-tasks-button-{{_id}}') Show Tasks
 
 template(name='task')
   li.list-group-item.task-li(class='{{liClasses}}')
@@ -110,10 +110,11 @@ template(name='task')
       span.label.label-warning.time-area.rightmost.minus-15= "-1/4hr"
       span.label.label-info.time-area.plus-15= "+1/4hr"
       span.label.label-success.time-area.plus-30= "+1/2hr"
-    ul.list-group
+    ul.list-group.subtasks-list(id='subtasks-list-{{_id}}')
       each subtasks
         +subtask
       +newSubtaskForm
+    button.btn.btn-xs.btn-default.show-button(id='show-subtasks-button-{{_id}}') Show Subtasks
 
 template(name='subtask')
   li.list-group-item(class='{{#if complete}}checked{{/if}}')

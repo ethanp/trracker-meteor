@@ -50,7 +50,9 @@ Template.body.events
   'click .new-button': ->
     arr = event.target.id.split('-')
     $('#new-'+arr[1]+'-form-'+arr[arr.length-1]).slideToggle()
-
+  'click .show-button': ->
+    arr = event.target.id.split('-')
+    $('#'+arr[1]+'-list-'+arr[arr.length-1]).slideToggle()
 
 Template.category.events
   'click .delete-category': -> Meteor.call 'deleteCategory', @_id
