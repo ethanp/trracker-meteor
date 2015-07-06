@@ -46,26 +46,11 @@ Template.task.helpers
     result
 
 Template.body.events
-  'submit .new-task': (e) ->
-    name = e.target.text.value
-    duedate = moment(e.target.duedate.value).toDate()
-    Meteor.call 'addTask', name, @_id, duedate
-    e.target.text.value = ''
-    e.target.duedate.value = ''
-    false
-  'submit .new-category': (e) ->
-    name = e.target.text.value
-    Meteor.call 'addCategory', name, @_id
-    e.target.text.value = ''
-    false
-  'submit .new-subtask': (e) ->
-    name = e.target.text.value
-    url = e.target.url.value
-    Meteor.call 'addSubtask', name, url, @_id
-    e.target.text.value = ''
-    e.target.url.value = ''
-    false
   'submit .in-place': -> false # prevents reload
+  'click .new-button': ->
+    arr = event.target.id.split('-')
+    $('#new-'+arr[1]+'-form-'+arr[arr.length-1]).slideToggle()
+
 
 Template.category.events
   'click .delete-category': -> Meteor.call 'deleteCategory', @_id
@@ -93,13 +78,8 @@ Template.subtask.events
     $('.edit-link-form').remove()
     false
 
+  # TODO should be togglable html like the newTaskForm
   'click .edit-link': (e) ->
-
-    # TODO this should be a TEMPLATE that is loaded on each subtask by default
-    # but with display: none
-    # then all this has to do is .show() it and .hide() it
-    # my gut is that the current way below is bad style
-
     $editButton = $(e.target)
     $li = $editButton.parent().parent()
 
@@ -114,14 +94,33 @@ Template.subtask.events
     $label = $('<label>').text('Edit Url: ')
     $input = $('<input>').addClass('in-place rename-link').attr
       type: 'text', name: 'edited', value: existingLink
-
     $form = $('<form>').addClass('edit-link-form').append($label).append($input)
     $li.append $form
 
+Template.newCategoryForm.events
+  'submit .new-category': (e) ->
+    name = e.target.text.value
+    Meteor.call 'addCategory', name, @_id
+    e.target.text.value = ''
+    false
+
 Template.newTaskForm.events
-  'click .new-task-button': ->
-    id = event.target.id.substring(event.target.id.lastIndexOf('-')+1)
-    $('#new-task-form-'+id).toggle()
+  'submit .new-task': (e) ->
+    name = e.target.text.value
+    duedate = moment(e.target.duedate.value).toDate()
+    Meteor.call 'addTask', name, @_id, duedate
+    e.target.text.value = ''
+    e.target.duedate.value = ''
+    false
+
+Template.newSubtaskForm.events
+  'submit .new-subtask': (e) ->
+    name = e.target.text.value
+    url = e.target.url.value
+    Meteor.call 'addSubtask', name, url, @_id
+    e.target.text.value = ''
+    e.target.url.value = ''
+    false
 
 Template.category.onRendered -> @$('.datetimepicker').datetimepicker sideBySide: true
 Template.ifRealDate.helpers realDate: (duedate) -> duedate.getTime() != 0

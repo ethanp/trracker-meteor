@@ -37,7 +37,7 @@ template(name='newCategoryForm')
       input(type='text', name='text', placeholder='New Category')
 
 template(name='newTaskForm')
-  button.btn.btn-sm.btn-success.new-task-button(id='new-task-button-{{_id}}') New Task
+  button.btn.btn-xs.btn-success.new-task-button.new-button(id='new-task-button-{{_id}}') New Task
   li.list-group-item.padded-box.new-task-form(id='new-task-form-{{_id}}')
     form.new.new-task
       input(type='text', name='text', placeholder='New Task')
@@ -50,7 +50,8 @@ template(name='newTaskForm')
       input(type='submit').off-screen
 
 template(name='newSubtaskForm')
-  li.list-group-item
+  button.btn.btn-xs.btn-default.new-subtask-button.new-button(id='new-subtask-button-{{_id}}') New Subtask
+  li.list-group-item.padded-box.new-subtask-form(id='new-subtask-form-{{_id}}')
     form.new.new-subtask
       input(type='text', name='text', placeholder='New Subtask')
       hr.no-space
@@ -84,7 +85,7 @@ template(name='ifDatePassed')
     +UI.elseBlock
 
 template(name='task')
-  li(class='{{liClasses}}').list-group-item
+  li.list-group-item.task-li(class='{{liClasses}}')
     button.delete.delete-task &times;
     unless timeSpent
       span.label.label-info.time-area.plus-15= "+1/4hr"
@@ -122,4 +123,4 @@ template(name='subtask')
       input.rename-subtask.in-place.text(type='text', value='{{name}}')
       if url
         a.subtask-link(href='#{url}') link
-        a.glyphicon.glyphicon-file.edit-link
+      a.glyphicon.glyphicon-file.edit-link

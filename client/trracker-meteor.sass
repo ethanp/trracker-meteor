@@ -30,9 +30,15 @@ header
   float: right
   margin-left: 2em
 
-.new-task-button
+.new-button
   margin-top: 1em
+
+.new-task-button, .task-li .list-group
   margin-bottom: 0
+  padding-bottom: 0
+
+.new-subtask-button
+  margin-bottom: 1em
 
 .off-screen
   position: absolute
@@ -54,6 +60,7 @@ h1
 
 .edit-link
   margin-left: .2em
+  float: right
 
 .edit-link-form
   margin: .5em 0 .2em .5em
@@ -150,7 +157,9 @@ li
     padding-bottom: 20px
     padding-top: 0
     margin-top: 10px
-
+  .new-subtask-form
+    display: none
+    padding-bottom: .5em
 
 hr.no-space
   margin: .1em 0
