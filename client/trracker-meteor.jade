@@ -75,14 +75,14 @@ template(name='category')
     button.delete.delete-category &times;
     form
       input.rename-category.in-place(type='text', value='{{name}}')
-    label.show-complete
-      input(type='checkbox', checked='#{showComplete}')
-      | Show Completed Tasks
     ul.list-group.tasks-list(id='tasks-list-{{_id}}')
+      label.show-complete
+        input(type='checkbox', checked='#{showComplete}')
+        | Show Completed Tasks
       each tasks
         +task
       +newTaskForm
-    button.btn.btn-xs.btn-default.show-button.show-tasks-button(id='show-tasks-button-{{_id}}') Show Tasks
+    button.btn.btn-xs.btn-default.show-button.show-tasks-button(id='show-tasks-button-{{_id}}') Hide Tasks
 
 template(name='task')
   li.list-group-item.task-li(class='{{liClasses}}')

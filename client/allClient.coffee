@@ -17,7 +17,8 @@ Template.sideNav.helpers
   categLabelColor: ->
     # any way to just call the incompletes() method above?
     incompletes = Tasks.find(_id: { $in: @tasks }, complete: $ne: true).count()
-    if incompletes then 'warning' else 'success'
+
+    if incompletes then 'info' else 'success'
 
 Template.userCategories.helpers
   categories: -> Categories.find()
@@ -46,7 +47,7 @@ Template.task.helpers
     result
 
 Template.body.events
-  'submit .in-place': -> false # prevents reload
+  'submit .in-place': (e) -> e.preventDefault(); false # prevents reload
   'click .new-button': ->
     arr = event.target.id.split('-')
     $('#new-'+arr[1]+'-form-'+arr[arr.length-1]).slideToggle()
